@@ -53,23 +53,24 @@
         <table border="1" style="border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th>id</th>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Release Date</th>
-                    <th>Active</th>
+                    <?php
+                    
+                        require_once 'Product.php';
+
+                        $oProduct = new Product();
+                        $classVars = classVars(get_class($oProduct));
+                        $aAllProducts = $oProduct->all();
+
+                        $iQuantity = count($aAllProducts);
+                        
+                        foreach($classVars as $property) {      
+                            echo '<th>'. separateWordsByCaseToStr(ucfirst($property)).'</th>';
+                        }
+                    ?>
                 </tr>
             </thead>
             <tbody>
                 <?php 
-                
-                    require_once 'Product.php';
-                    
-                    $oProduct = new Product();
-                    $classVars = classVars(get_class($oProduct));
-                    $aAllProducts = $oProduct->all();
-                    
-                    $iQuantity = count($aAllProducts);
                     
                     if ( $iQuantity > 0) {
                         foreach ($aAllProducts as $aProduct) {
@@ -88,7 +89,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="5">Total de resultados: <?php echo count($aAllProducts);?></td>
+                    <td colspan="5">Results: <?php echo count($aAllProducts);?></td>
                 </tr>
             </tfoot>
         </table>

@@ -15,6 +15,15 @@ function classVars($sClassName) {
     return $list;
 }
 
+function separateWordsByCase($sWordCaseString) 
+{
+    return preg_split('/(?<=[a-z])(?=[A-Z])/x', $sWordCaseString);
+}
+
+function separateWordsByCaseToStr($sWordCaseString) {
+    return implode(' ', separateWordsByCase($sWordCaseString));
+}
+
 require_once './DAO.php';
 /**
  * FreePHPMVC Database connection class
@@ -43,7 +52,7 @@ class ActiveRecord extends DAO
                 
                 $sGetMethod = 'get'.ucfirst($column);
                 
-                if (method_exists($oModel, $sGetMethod)) {
+                if (method_exists($oModel, $sGetMethod) and property_exists($oModel, $column)) {
                     
                     $reflectionProperty = $reflectionClass->getProperty($column);
                     $reflectionProperty->setAccessible(true);
