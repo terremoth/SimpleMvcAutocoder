@@ -5,10 +5,10 @@ $bHasPost = count($_POST) > 0;
 if ($bHasPost) {
     // tratar item a item do post
     //persistir post ao objeto do model
-    require_once './model_product.php';
+    require_once './Product.php';
     // Relaxem que a superglobal $_POST será sanitizada, aqui é só exemplo
     $oProduct = new Product();
-    $oProduct->persist($_POST); // esse persist é um metodo do ActiveRecord.php
+    $oProduct->save($_POST); // esse persist é um metodo do ActiveRecord.php
     // ou
     //$oProduct = new Product($_POST);
     //ou

@@ -16,32 +16,37 @@
     </head>
     <body>
         <h1>Product</h1>
+        
         <form action="controller_product.php" method="POST">
-            <h3>Register</h3>
-            <table border="1" style="border-collapse: collapse;">
-                <tr>
-                    <td>Name:</td>
-                    <td><input type="text" name="name" value="" maxlength="80" autofocus="autofocus" title="Name" required="required"></td>
-                </tr>
-                <tr>
-                    <td>Quantity:</td>
-                    <td><input type="number" name="quantity" value="0" title="Quantity" required="required"></td>
-                </tr>
-                <tr>
-                    <td>Release Date:</td>
-                    <td><input type="date" name="releaseDate" value="<?php echo date("Y-m-d");?>" title="Release Date" required="required"></td>
-                </tr>
-                <tr>
-                    <td>Active:</td>
-                    <td>
-                        Yes: <input type="radio" name="active" value="1" title="Active" checked="checked">
-                        No:  <input type="radio" name="active" value="0" title="Active">
-                    </td>
-                </tr>
-            </table>
-            <p>
-                <input type="submit">
-            </p>
+            <fieldset>
+                <legend>
+                    <h3>Register</h3>                
+                </legend>
+                <table border="1" style="border-collapse: collapse;">
+                    <tr>
+                        <td>Name:</td>
+                        <td><input type="text" name="name" value="" maxlength="80" autofocus="autofocus" title="Name" required="required"></td>
+                    </tr>
+                    <tr>
+                        <td>Quantity:</td>
+                        <td><input type="number" name="quantity" value="0" title="Quantity" required="required"></td>
+                    </tr>
+                    <tr>
+                        <td>Release Date:</td>
+                        <td><input type="date" name="releaseDate" value="<?php echo date("Y-m-d");?>" title="Release Date" required="required"></td>
+                    </tr>
+                    <tr>
+                        <td>Active:</td>
+                        <td>
+                            Yes: <input type="radio" name="active" value="1" title="Active" checked="checked">
+                            No:  <input type="radio" name="active" value="0" title="Active">
+                        </td>
+                    </tr>
+                </table>
+                <p>
+                    <input type="submit">
+                </p>                
+            </fieldset>
         </form>
         <hr>
         <h3>List</h3>
@@ -58,30 +63,26 @@
             <tbody>
                 <?php 
                 
-                    require_once 'model_product.php';
+                    require_once 'Product.php';
                     
-                    $oProduct     = new Product();
-                    $class_vars   = class_vars("Product");
-                    $iColspanSize = count($class_vars); 
-                    $aAllProducts = $oProduct->getAllObjects();
-                                        
+                    $oProduct = new Product();
+                    $classVars = classVars(get_class($oProduct));
+                    $aAllProducts = $oProduct->all();
+                    
                     $iQuantity = count($aAllProducts);
                     
-                    if (count($aAllProducts) > 0) {
-                        foreach ($aAllProducts as $oProduct) {
-                            
-                // This identation is simple and easy way to beautify HTML in browser without any "XML" lib
-                echo '<tr>
-                    <td>'.$oProduct->getId().'</td>
-                    <td>'.$oProduct->getName().'</td>
-                    <td>'.$oProduct->getQuantity().'</td>
-                    <td>'.$oProduct->getReleaseDate().'</td>
-                    <td>'.$oProduct->getActive().'</td>
-                </tr>
-                ';
+                    if ( $iQuantity > 0) {
+                        foreach ($aAllProducts as $aProduct) {
+                            // This identation is simple and easy way to beautify HTML in browser without any "XML" lib
+                            echo '<tr>';
+                            foreach($classVars as $property) {
+                                
+                                echo '<td>'.$aProduct[$property].'</td>';
+                            }
+                            echo'</tr>';
                         }
                     } else {
-                        echo '<tr><td colspan="'.$iColspanSize.'">There are nothing registered.</td></tr>';
+                        echo '<tr><td colspan="30">There are nothing registered.</td></tr>';
                     }
                 ?> 
             </tbody>
